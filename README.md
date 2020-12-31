@@ -1,4 +1,4 @@
-# nodex-0
+# nodex-cert
 
 A starter template for nodex service project.
 
