@@ -1,6 +1,6 @@
 {
     "apps": {
-        "name": "nodex-0",
+        "name": "nodex-cert",
         "script": "node_modules/.bin/nodex",
         "args": "start",
         "watch": true,

@@ -1,7 +1,7 @@
 {
-  "name": "nodex-0",
-  "version": "2.0.0",
-  "description": "nodex-0 base on nodex-libs",
+  "name": "nodex-cert",
+  "version": "1.0.0",
+  "description": "nodex-cert 用户身份校验函数库",
   "scripts": {
     "start": "npm run dev",
     "dev": "cross-env NODE_ENV=dev nodemon --exec 'nodex start'",
