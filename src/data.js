@@ -19,7 +19,7 @@ exports.init = async function (args) {
  * 身份证实名认证-身份证二要素认证-身份证一致性校验: 身份证、姓名
  * @param {*} param0 
  */
-exports.idcard = async function ({ cardno, name }) {
+exports.idCard = async function ({ cardno, name }) {
   const listResult = await sdk.dss.list({
     appid: appId,
     query: {
@@ -32,6 +32,7 @@ exports.idcard = async function ({ cardno, name }) {
     const { cardno, name, sex, address, birthday } = list[0];
     return { cardno, name, sex, address, birthday };
   }
+
   const result = await http.get({
     headers: {
       Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
@@ -42,6 +43,7 @@ exports.idcard = async function ({ cardno, name }) {
   if (result.status != 200) {
     return result;
   }
+
   const { data } = result.content || {};
   const { isok, IdCardInfor } = data || {};
   const { area, sex, birthday } = IdCardInfor || {};
@@ -64,7 +66,7 @@ exports.idcard = async function ({ cardno, name }) {
  * 手机号三要素实名验证: 身份证、手机号、姓名
  * @param {*} param0 
  */
-exports.phonethree = async function ({ cardno, phone, name }) {
+exports.phoneThree = async function ({ cardno, phone, name }) {
   const listResult = await sdk.dss.list({
     appid: appId,
     query: {
@@ -106,43 +108,35 @@ exports.phonethree = async function ({ cardno, phone, name }) {
  * 银行卡二要素一致性核验
  * @param {*} param0 
  */
-exports.bankTwoCheck = async function({accountNo, name}) {
-  const listResult = await sdk.dss.list({
-    appid: appId,
-    query: {
-      accountNo,
-      name,
-      dataType: `${SERVICE_NAME}-bankTwoCheck`
+exports.bankTwo = async function({accountNo, name}) {
+  const checkData = async function(type) {
+    const listResult = await sdk.dss.list({
+      appid: appId,
+      query: {
+        accountNo,
+        name,
+        dataType: `${SERVICE_NAME}-${type}`
+      }
+    })
+    const { data: list } = listResult || {};
+    if (list && list.length) {
+      return { accountNo, name };
     }
-  })
-  const { data: list } = listResult || {};
-  if (list && list.length) {
-    return { accountNo, name };
+    return false;
   }
-  const fourResult = await sdk.dss.list({
-    appid: appId,
-    query: {
-      accountNo,
-      name,
-      dataType: `${SERVICE_NAME}-bankFourCheck`
-    }
-  })
-  const { data: fourList } = fourResult || {};
-  if (fourList && fourList.length) {
-    return { accountNo, name };
+  const bankTwo = checkData('bankTwoCheck');
+  if(bankTwo) {
+    return bankTwo;
   }
-  const threeResult = await sdk.dss.list({
-    appid: appId,
-    query: {
-      accountNo,
-      name,
-      dataType: `${SERVICE_NAME}-bankThreeCheck`
-    }
-  })
-  const { data: threeList } = threeResult || {};
-  if (threeList && threeList.length) {
-    return { accountNo, name };
+  const bankThree = checkData('bankThreeCheck');
+  if(bankThree) {
+    return bankThree;
   }
+  const bankFoure = checkData('bankFourCheck');
+  if(bankFoure) {
+    return bankFoure;
+  }
+  
   const result = await http.get({
     headers: {
       Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
@@ -160,7 +154,6 @@ exports.bankTwoCheck = async function({accountNo, name}) {
       dataType: `${SERVICE_NAME}-bankTwoCheck`
     });
   }
- 
   return { accountNo, name }
 }
 
@@ -168,33 +161,32 @@ exports.bankTwoCheck = async function({accountNo, name}) {
  * 银行卡三要素一致性核验 银行卡卡号、姓名、证件号
  * @param {*} param0 
  */
-exports.bankThreeCheck = async function({accountNo, cardno, name}) {
-  const fourResult = await sdk.dss.list({
-    appid: appId,
-    query: {
-      accountNo,
-      name,
-      cardno,
-      dataType: `${SERVICE_NAME}-bankFourCheck`
+exports.bankThree = async function({accountNo, cardno, name}) {
+  const checkData = async function(type) {
+    const listResult = await sdk.dss.list({
+      appid: appId,
+      query: {
+        accountNo,
+        name,
+        cardno,
+        dataType: `${SERVICE_NAME}-${type}`
+      }
+    })
+    const { data: list } = listResult || {};
+    if (list && list.length) {
+      return { accountNo, name, cardno };
     }
-  })
-  const { data: fourList } = fourResult || {};
-  if (fourList && fourList.length) {
-    return { accountNo, name, cardno };
+    return false;
   }
-  const listResult = await sdk.dss.list({
-    appid: appId,
-    query: {
-      accountNo,
-      name,
-      cardno,
-      dataType: `${SERVICE_NAME}-bankThreeCheck`
-    }
-  })
-  const { data: list } = listResult || {};
-  if (list && list.length) {
-    return { accountNo, name, cardno };
+  const bankThree = checkData('bankThreeCheck');
+  if(bankThree) {
+    return bankThree;
   }
+  const bankFoure = checkData('bankFourCheck');
+  if(bankFoure) {
+    return bankFoure;
+  }
+  
   const result = await http.get({
     headers: {
       Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
@@ -221,7 +213,7 @@ exports.bankThreeCheck = async function({accountNo, cardno, name}) {
  * 银行卡四元素实名认证: 银行卡卡号、银行预留手机号码、身份证号码、持卡人姓名
  * @param {*} param0 
  */
-exports.bankFourCheck = async function({accountNo, phone, cardno, name}) {
+exports.bankFour = async function({accountNo, phone, cardno, name}) {
   const listResult = await sdk.dss.list({
     appid: appId,
     query: {
