@@ -30,7 +30,7 @@ exports.getByNameIdcard = async function (name, idCard) {
   return results.length > 0 ? results[0] : null;
 }
 
-exports.addUser = async function({id, name, idCard, phone, bankNumber, address, sex, birthday}) {
+exports.addUser = async function ({ id, name, idCard, phone, bankNumber, address, sex, birthday }) {
   const sql = `
         insert into t_user
             (c_id, c_name, c_phone, c_id_card, c_bank_number, c_address, c_sex, c_birthday, c_gmt_create, c_gmt_update)
@@ -42,7 +42,7 @@ exports.addUser = async function({id, name, idCard, phone, bankNumber, address, 
   return results.affectedRows > 0;
 }
 
-exports.updateUser = async function({id, name, idCard, phone, bankNumber, address, sex, birthday}) {
+exports.updateUser = async function ({ id, name, idCard, phone, bankNumber, address, sex, birthday }) {
   const sql = `
         update 
             t_user
@@ -58,7 +58,7 @@ exports.updateUser = async function({id, name, idCard, phone, bankNumber, addres
         where
             c_id = '${id}'`;
 
-    const results = await db.query(sql);
+  const results = await db.query(sql);
 
-    return results.affectedRows > 0;
+  return results.affectedRows > 0;
 }
