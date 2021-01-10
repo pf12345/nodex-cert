@@ -1,11 +1,11 @@
 {
   "data": {
     "mysql": {
-      "host": "127.0.0.1",
+      "host": "47.110.82.88",
       "port": 3306,
       "user": "root",
-      "password": "root",
-      "database": "test"
+      "password": "ls_dba_01#a9f",
+      "database": "nodex_cert"
     },
     "appid": "00072eff060800000007",
     "appSecret": "431afd286bbd7b0c952ad9455cbb4bbb"
