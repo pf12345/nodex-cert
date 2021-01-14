@@ -19,6 +19,7 @@
     "port": 58952,
     "cors": true,
     "log": true,
-    "proxy": true
+    "proxy": true,
+    "ping": true
   }
 }
