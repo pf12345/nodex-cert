@@ -17,8 +17,13 @@ exports.checkRealnameIdcard = async function(realname, idcard) {
   if (result.status != 200) {
     return false;
   }
-  
-  const { data } = result.content || {};
+  let content = {};
+  try {
+    content = JSON.parse(result.content) || {};
+  } catch(e) {
+    content = result.content || {};
+  }
+  const { result: data } = content;
   const { isok, IdCardInfor } = data || {};
   const { area, sex, birthday } = IdCardInfor || {};
   if (!isok) {
@@ -62,6 +67,7 @@ exports.checkRealnameBanknumber = async function(realname, bankNumber) {
     hostname: "api11.aliyun.venuscn.com",
     path: `/cert/bank-card/2?bank=${bankNumber}&name=${encodeURI(realname)}`,
   })
+  console.log('result', result);
   const { content } = result || {};
   const { ret, data } = content || {};
   const { code } = data || {};
@@ -103,6 +109,7 @@ exports.checkRealnameIdcardBanknumberPhone = async function(realname, idcard, ba
     hostname: "api11.aliyun.venuscn.com",
     path: `/cert/bank-card/4?bank=${bankNumber}&mobile=${phone}&name=${encodeURI(realname)}&number=${idcard}&type=0`,
   });
+  console.log('result', result);
   const { content } = result || {};
   const { ret, data } = content || {};
   const { code } = data || {};

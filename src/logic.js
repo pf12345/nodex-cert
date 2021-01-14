@@ -31,8 +31,8 @@ exports.realnameIdcard = async function({name, idCard}) {
  * @param {*} param0 
  */
 exports.realnameIdcardPhone = async function({name, idCard, phone}) {
-  fmt.required(idCard, 'string', 2, 64);
   fmt.required(name, 'string', 2, 64);
+  fmt.required(idCard, 'string', 2, 64);
   fmt.required(phone, 'string', 2, 64);
   const userInfo = await data.getByNameIdcard(name, idCard);
   if(userInfo && userInfo.phone === phone) {
@@ -69,7 +69,7 @@ exports.realnameBanknumber = async function({name, bankNumber}) {
  * 银行卡三要素一致性核验 银行卡卡号、姓名、身份证
  * @param {*} param0 
  */
-exports.realnameBanknumberPhone = async function({name, idCard, bankNumber}) {
+exports.realnameIdcardBanknumber = async function({name, idCard, bankNumber}) {
   fmt.required(name, 'string', 2, 64);
   fmt.required(idCard, 'string', 2, 64);
   fmt.required(bankNumber, 'string', 2, 64);
@@ -77,7 +77,7 @@ exports.realnameBanknumberPhone = async function({name, idCard, bankNumber}) {
   if(userInfo && userInfo.bankNumber === bankNumber) {
     return true
   }
-  const remoteData = await gate.checkRealnameIdcardBanknumber(name, idCard, phone);
+  const remoteData = await gate.checkRealnameIdcardBanknumber(name, idCard, bankNumber);
   if(remoteData) {
     if(userInfo) {
       await data.updateUser({...userInfo, bankNumber});
@@ -104,6 +104,7 @@ exports.realnameIdcardBanknumberPhone = async function({name, idCard, bankNumber
     return true
   }
   const remoteData = await gate.checkRealnameIdcardBanknumberPhone(name, idCard, bankNumber, phone);
+  console.log('remoteData', remoteData)
   if(remoteData) {
     if(userInfo) {
       await data.updateUser({...userInfo, bankNumber, phone});

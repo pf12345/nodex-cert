@@ -13,7 +13,7 @@ exports.getByNameIdcard = async function (name, idCard) {
             c_id as id,
             c_name as name,
             c_phone as phone,
-            c_id_card as idcard,
+            c_id_card as idCard,
             c_bank_number as bankNumber,
             c_address as address,
             c_sex as sex,
@@ -25,7 +25,30 @@ exports.getByNameIdcard = async function (name, idCard) {
         where
             c_name = '${name}' and c_id_card = '${idCard}'`;
 
-  const results = await db.query(sql);
+  const results = await mysql.query(sql);
+
+  return results.length > 0 ? results[0] : null;
+}
+
+exports.getByNameBankNumber = async function(name, bankNumber) {
+  const sql = `
+        select
+            c_id as id,
+            c_name as name,
+            c_phone as phone,
+            c_id_card as idCard,
+            c_bank_number as bankNumber,
+            c_address as address,
+            c_sex as sex,
+            c_birthday as birthday,
+            c_gmt_create as gmtCreate,
+            c_gmt_update as gmtUpdate
+        from
+            t_user
+        where
+            c_name = '${name}' and c_bank_number = '${bankNumber}'`;
+
+  const results = await mysql.query(sql);
 
   return results.length > 0 ? results[0] : null;
 }
@@ -37,7 +60,7 @@ exports.addUser = async function ({ id, name, idCard, phone, bankNumber, address
         values
             ('${id}', '${name}', '${phone}', '${idCard}', '${bankNumber}', '${address}', '${sex}', '${birthday}', '${Date.now()}', '${Date.now()}')`;
 
-  const results = await db.query(sql);
+  const results = await mysql.query(sql);
 
   return results.affectedRows > 0;
 }
@@ -58,7 +81,7 @@ exports.updateUser = async function ({ id, name, idCard, phone, bankNumber, addr
         where
             c_id = '${id}'`;
 
-  const results = await db.query(sql);
+  const results = await mysql.query(sql);
 
   return results.affectedRows > 0;
 }
