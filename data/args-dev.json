@@ -16,9 +16,10 @@
   "serv": {
     "name": "nodex-0",
     "host": "127.0.0.1",
-    "port": 58952,
+    "port": 58968,
     "cors": true,
     "log": true,
-    "proxy": true
+    "proxy": true,
+    "ping": true
   }
 }

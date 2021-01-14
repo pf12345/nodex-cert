@@ -14,9 +14,9 @@
     
   },
   "serv": {
-    "name": "nodex-0",
+    "name": "nodex-cert",
     "host": "127.0.0.1",
-    "port": 58952,
+    "port": 58968,
     "cors": true,
     "log": true,
     "proxy": true,
