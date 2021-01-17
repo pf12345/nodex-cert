@@ -4,11 +4,11 @@ const { libs } = nodex;
 const { http, mysql } = libs;
 
 exports.init = async function (args) {
-  await mysql.init(args.mysql);
+    await mysql.init(args.mysql);
 };
 
 exports.getByNameIdcard = async function (name, idCard) {
-  const sql = `
+    const sql = `
         select
             c_id as id,
             c_name as name,
@@ -25,13 +25,13 @@ exports.getByNameIdcard = async function (name, idCard) {
         where
             c_name = '${name}' and c_id_card = '${idCard}'`;
 
-  const results = await mysql.query(sql);
+    const results = await mysql.query(sql);
 
-  return results.length > 0 ? results[0] : null;
+    return results.length > 0 ? results[0] : null;
 }
 
-exports.getByNameBankNumber = async function(name, bankNumber) {
-  const sql = `
+exports.getByNameBankNumber = async function (name, bankNumber) {
+    const sql = `
         select
             c_id as id,
             c_name as name,
@@ -48,25 +48,25 @@ exports.getByNameBankNumber = async function(name, bankNumber) {
         where
             c_name = '${name}' and c_bank_number = '${bankNumber}'`;
 
-  const results = await mysql.query(sql);
+    const results = await mysql.query(sql);
 
-  return results.length > 0 ? results[0] : null;
+    return results.length > 0 ? results[0] : null;
 }
 
 exports.addUser = async function ({ id, name, idCard, phone, bankNumber, address, sex, birthday }) {
-  const sql = `
+    const sql = `
         insert into t_user
             (c_id, c_name, c_phone, c_id_card, c_bank_number, c_address, c_sex, c_birthday, c_gmt_create, c_gmt_update)
         values
             ('${id}', '${name}', '${phone}', '${idCard}', '${bankNumber}', '${address}', '${sex}', '${birthday}', '${Date.now()}', '${Date.now()}')`;
 
-  const results = await mysql.query(sql);
+    const results = await mysql.query(sql);
 
-  return results.affectedRows > 0;
+    return results.affectedRows > 0;
 }
 
 exports.updateUser = async function ({ id, name, idCard, phone, bankNumber, address, sex, birthday }) {
-  const sql = `
+    const sql = `
         update 
             t_user
         set
@@ -81,7 +81,7 @@ exports.updateUser = async function ({ id, name, idCard, phone, bankNumber, addr
         where
             c_id = '${id}'`;
 
-  const results = await mysql.query(sql);
+    const results = await mysql.query(sql);
 
-  return results.affectedRows > 0;
+    return results.affectedRows > 0;
 }

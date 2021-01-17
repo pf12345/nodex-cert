@@ -6,30 +6,30 @@ const { http } = libs;
  * @param {*} realname 姓名
  * @param {*} idcard 身份证
  */
-exports.checkRealnameIdcard = async function(realname, idcard) {
-  const result = await http.get({
-    headers: {
-      Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
-    },
-    hostname: "zid.market.alicloudapi.com",
-    path: `/idcard/VerifyIdcardv2?cardNo=${idcard}&realName=${encodeURI(realname)}`
-  })
-  if (result.status != 200) {
-    return false;
-  }
-  let content = {};
-  try {
-    content = JSON.parse(result.content) || {};
-  } catch(e) {
-    content = result.content || {};
-  }
-  const { result: data } = content;
-  const { isok, IdCardInfor } = data || {};
-  const { area, sex, birthday } = IdCardInfor || {};
-  if (!isok) {
-    return false;
-  }
-  return { area, sex, birthday }
+exports.checkRealnameIdcard = async function (realname, idcard) {
+    const result = await http.get({
+        headers: {
+            Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
+        },
+        hostname: "zid.market.alicloudapi.com",
+        path: `/idcard/VerifyIdcardv2?cardNo=${idcard}&realName=${encodeURI(realname)}`
+    })
+    if (result.status != 200) {
+        return false;
+    }
+    let content = {};
+    try {
+        content = JSON.parse(result.content) || {};
+    } catch (e) {
+        content = result.content || {};
+    }
+    const { result: data } = content;
+    const { isok, IdCardInfor } = data || {};
+    const { area, sex, birthday } = IdCardInfor || {};
+    if (!isok) {
+        return false;
+    }
+    return { area, sex, birthday }
 }
 
 /**
@@ -38,20 +38,20 @@ exports.checkRealnameIdcard = async function(realname, idcard) {
  * @param {*} idcard 身份证
  * @param {*} phone 手机号
  */
-exports.checkRealnameIdcardPhone = async function(realname, idcard, phone) {
-  const result = await http.get({
-    headers: {
-      Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
-    },
-    hostname: "phone3.market.alicloudapi.com",
-    path: `/phonethree?phone=${phone}&realname=${encodeURI(realname)}&idcard=${idcard}`
-  })
-  if (result.status != 200) {
-    return false;
-  }
-  const { data } = result.content || {};
-  const { province, city, operator } = data || {};
-  return { operator, province, city }
+exports.checkRealnameIdcardPhone = async function (realname, idcard, phone) {
+    const result = await http.get({
+        headers: {
+            Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
+        },
+        hostname: "phone3.market.alicloudapi.com",
+        path: `/phonethree?phone=${phone}&realname=${encodeURI(realname)}&idcard=${idcard}`
+    })
+    if (result.status != 200) {
+        return false;
+    }
+    const { data } = result.content || {};
+    const { province, city, operator } = data || {};
+    return { operator, province, city }
 }
 
 /**
@@ -59,19 +59,19 @@ exports.checkRealnameIdcardPhone = async function(realname, idcard, phone) {
  * @param {*} realname 姓名
  * @param {*} bankNumber 银行卡
  */
-exports.checkRealnameBanknumber = async function(realname, bankNumber) {
-  const result = await http.get({
-    headers: {
-      Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
-    },
-    hostname: "api11.aliyun.venuscn.com",
-    path: `/cert/bank-card/2?bank=${bankNumber}&name=${encodeURI(realname)}`,
-  })
-  console.log('result', result);
-  const { content } = result || {};
-  const { ret, data } = content || {};
-  const { code } = data || {};
-  return ret == 200 && code == 0
+exports.checkRealnameBanknumber = async function (realname, bankNumber) {
+    const result = await http.get({
+        headers: {
+            Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
+        },
+        hostname: "api11.aliyun.venuscn.com",
+        path: `/cert/bank-card/2?bank=${bankNumber}&name=${encodeURI(realname)}`,
+    })
+    console.log('result', result);
+    const { content } = result || {};
+    const { ret, data } = content || {};
+    const { code } = data || {};
+    return ret == 200 && code == 0
 }
 
 /**
@@ -80,18 +80,18 @@ exports.checkRealnameBanknumber = async function(realname, bankNumber) {
  * @param {*} idcard 证件号
  * @param {*} bankNumber 银行卡卡号
  */
-exports.checkRealnameIdcardBanknumber = async function(realname, idcard, bankNumber) {
-  const result = await http.get({
-    headers: {
-      Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
-    },
-    hostname: "api11.aliyun.venuscn.com",
-    path: `/cert/bank-card/3?bank=${bankNumber}&name=${encodeURI(realname)}&number=${idcard}`,
-  });
-  const { content } = result || {};
-  const { ret, data } = content || {};
-  const { code } = data || {};
-  return ret == 200 && code == 0;
+exports.checkRealnameIdcardBanknumber = async function (realname, idcard, bankNumber) {
+    const result = await http.get({
+        headers: {
+            Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
+        },
+        hostname: "api11.aliyun.venuscn.com",
+        path: `/cert/bank-card/3?bank=${bankNumber}&name=${encodeURI(realname)}&number=${idcard}`,
+    });
+    const { content } = result || {};
+    const { ret, data } = content || {};
+    const { code } = data || {};
+    return ret == 200 && code == 0;
 }
 
 /**
@@ -101,17 +101,17 @@ exports.checkRealnameIdcardBanknumber = async function(realname, idcard, bankNum
  * @param {*} bankNumber 银行卡卡号
  * @param {*} phone 银行预留手机号码
  */
-exports.checkRealnameIdcardBanknumberPhone = async function(realname, idcard, bankNumber, phone) {
-  const result = await http.get({
-    headers: {
-      Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
-    },
-    hostname: "api11.aliyun.venuscn.com",
-    path: `/cert/bank-card/4?bank=${bankNumber}&mobile=${phone}&name=${encodeURI(realname)}&number=${idcard}&type=0`,
-  });
-  console.log('result', result);
-  const { content } = result || {};
-  const { ret, data } = content || {};
-  const { code } = data || {};
-  return ret == 200 && code == 0;
+exports.checkRealnameIdcardBanknumberPhone = async function (realname, idcard, bankNumber, phone) {
+    const result = await http.get({
+        headers: {
+            Authorization: "APPCODE cf817ace62a34891bce2d711ca27128f"
+        },
+        hostname: "api11.aliyun.venuscn.com",
+        path: `/cert/bank-card/4?bank=${bankNumber}&mobile=${phone}&name=${encodeURI(realname)}&number=${idcard}&type=0`,
+    });
+    console.log('result', result);
+    const { content } = result || {};
+    const { ret, data } = content || {};
+    const { code } = data || {};
+    return ret == 200 && code == 0;
 }
